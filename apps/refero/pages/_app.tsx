@@ -4,7 +4,7 @@ import './styles.css';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ReactElement } from 'react';
 
-function CustomApp({ Component, pageProps }: AppProps): ReactElement {
+function App({ Component, pageProps }: AppProps): ReactElement {
   return (
     <>
       <Head>
@@ -19,4 +19,4 @@ function CustomApp({ Component, pageProps }: AppProps): ReactElement {
   );
 }
 
-export default CustomApp;
+export default App;

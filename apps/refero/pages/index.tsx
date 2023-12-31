@@ -1,6 +1,7 @@
+import { ReactElement } from 'react';
 import styles from './index.module.scss';
 
-export function Index() {
+export function Index(): ReactElement {
   /*
    * Replace the elements below with your own.
    *
