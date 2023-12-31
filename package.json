@@ -5,7 +5,12 @@
   "scripts": {},
   "private": true,
   "dependencies": {
+    "@chakra-ui/next-js": "^2.2.0",
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@nx/next": "17.2.8",
+    "framer-motion": "^10.16.16",
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
