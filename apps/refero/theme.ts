@@ -8,5 +8,3 @@ const config: ThemeConfig = {
 export const theme = extendTheme({
   config
 });
-
-export default theme;
