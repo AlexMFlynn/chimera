@@ -23,7 +23,8 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "refero:build",
-        "dev": true
+        "dev": true,
+        "proxyConfig": "apps/refero/proxy.conf.json"
       },
       "configurations": {
         "development": {

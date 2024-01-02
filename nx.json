@@ -63,5 +63,9 @@
       }
     }
   },
-  "nxCloudAccessToken": "ZmMwYmE5MGQtMjE5Mi00NTQwLTg0NWUtNjM4MmVkNDg4MDk4fHJlYWQtd3JpdGU="
+  "nxCloudAccessToken": "ZmMwYmE5MGQtMjE5Mi00NTQwLTg0NWUtNjM4MmVkNDg4MDk4fHJlYWQtd3JpdGU=",
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "libs"
+  }
 }
