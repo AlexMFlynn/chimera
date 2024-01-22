@@ -1,8 +1,8 @@
-import {
-  Box } from '@chakra-ui/react';
-import TodoTable from '../../components/tables/todoTable';
-import { FC } from 'react';
+import { Box } from '@chakra-ui/react';
+import { TodoTable } from '../../components/tables/todoTable';
+import { FC, useState } from 'react';
 import { TaskProps } from '../../components/interfaces/taskProps';
+import { TaskFilter } from '../../components/forms/filters/taskFilter';
 
 const taskList: TaskProps[] = [
   {
@@ -21,24 +21,39 @@ const taskList: TaskProps[] = [
     'id': 3,
     'title': 'fugiat veniam minus',
     'description': 'something, something, dark side.',
-    'completed': false
+    'completed': true
   }
 ];
 
-const filter = '';
 
-
-//TODO: add return type
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const filterCheck = (task: TaskProps) => {
-  if (task.title.includes(filter) || task.description.includes(filter)) {
-    return task;
-  };
-};
+export interface filter {
+  title: string;
+  description: string;
+  completed: boolean | null;
+}
 
 export const Dashboard: FC = () => {
+
+  const [filter, setFilter] = useState<filter>({
+    title: '',
+    description: '',
+    completed: null
+  });
+
+  const filterCheck = (task: TaskProps): boolean => {
+    return (
+      (filter.title === '' || task.title.includes(filter.title)) &&
+      (filter.description === '' || task.description.includes(filter.description)) &&
+      (filter.completed === null || task.completed === filter.completed)
+    );
+  };
+
+  const handleFilterChange = (newFilter: filter): void => {
+    setFilter(newFilter);
+  };
   return (
     <Box>
+      <TaskFilter onFilterChange={handleFilterChange}/>
       <TodoTable tasks={taskList.filter(filterCheck)}/>
     </Box>
   );
