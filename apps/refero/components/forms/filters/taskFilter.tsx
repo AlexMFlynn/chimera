@@ -10,7 +10,7 @@ import {
   useColorMode
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 
 interface TaskFilterProps {
   onFilterChange: (filter: {
@@ -27,8 +27,10 @@ export const TaskFilter: FC<TaskFilterProps> = ({
   const boxShadowColor = colorMode === 'dark' ? 'rgba(0, 128, 128, 0.6)' : 'rgba(0, 128, 128, 0.8)';
   return (
     <Box
-      p={5} // padding
-      m={10}
+      p={5}
+      pb={10}
+      ml={10}
+      mr={10}
       shadow="md" // medium shadow
       borderWidth="1px" // border width
       borderRadius="md" // medium border radius
@@ -41,89 +43,94 @@ export const TaskFilter: FC<TaskFilterProps> = ({
           description: '',
           completed: ''
         }}
-        onSubmit={values => {
-          const completedConversion: boolean | null =
-            values.completed !== '' ? values.completed === 'true' ? true : false: null;
-
-          const convertedValues = {
-            ...values,
-            completed: completedConversion
-          };
-
-          onFilterChange(convertedValues);
+        onSubmit={(_values, {setSubmitting})=> {
+          setSubmitting(false);
         }}
       >
-        {({handleSubmit, resetForm}) => (
-          <form onSubmit={handleSubmit}>
-            <HStack
-              alignItems={'center'}
-              spacing={4}
-            >
-              <FormControl>
-                <FormLabel htmlFor='title'>Title</FormLabel>
-                <Field
-                  as={Input}
-                  id='title'
-                  name='title'
-                  type='text'
-                  variant='filled'
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor='description'>Description</FormLabel>
-                <Field
-                  as={Input}
-                  id='description'
-                  name='description'
-                  type='text'
-                  variant='filled'
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel htmlFor='completed'>Completed</FormLabel>
-                <Field
-                  as={Select}
-                  id='completed'
-                  name='completed'
-                  variant='filled'
-                >
-                  <option value=''>All</option>
-                  <option value='true'>Completed</option>
-                  <option value='false'>Not Completed</option>
-                </Field>
-              </FormControl>
-              <Stack alignContent={'center'}>
-                <Button
-                  p={3}
-                  colorScheme='teal'
-                  variant='outline'
-                  size='xl'
-                  onClick={() => {
-                    resetForm();
-                    onFilterChange({
-                      title: '',
-                      description: '',
-                      completed: null
-                    });
-                  }}
-                >
+        {({values, handleChange, resetForm}) => {
+          const changeHandler = (
+            event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+          ): void => {
+            handleChange(event);
+            const newValues = {
+              ...values,
+              [event.target.name]: event.target.value
+            };
+
+            const completedConversion: boolean | null =
+                newValues.completed !== '' ? newValues.completed === 'true' : null;
+
+            onFilterChange({
+              ...newValues,
+              completed: completedConversion
+            });
+          };
+          return (
+            <form>
+              <HStack
+                alignItems={'center'}
+                spacing={4}
+              >
+                <FormControl>
+                  <FormLabel htmlFor='title'>Title</FormLabel>
+                  <Field
+                    as={Input}
+                    id='title'
+                    name='title'
+                    type='text'
+                    variant='filled'
+                    onChange={changeHandler}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor='description'>Description</FormLabel>
+                  <Field
+                    as={Input}
+                    id='description'
+                    name='description'
+                    type='text'
+                    variant='filled'
+                    onChange={changeHandler}
+                  />
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor='completed'>Completed</FormLabel>
+                  <Field
+                    as={Select}
+                    id='completed'
+                    name='completed'
+                    variant='filled'
+                    onChange={changeHandler}
+                  >
+                    <option value=''>All</option>
+                    <option value='true'>Completed</option>
+                    <option value='false'>Not Completed</option>
+                  </Field>
+                </FormControl>
+                <Stack alignContent={'center'}>
+                  <Button
+                    p={3}
+                    mt={6}
+                    ml={4}
+                    colorScheme='teal'
+                    variant='outline'
+                    size='xl'
+                    onClick={() => {
+                      resetForm();
+                      onFilterChange({
+                        title: '',
+                        description: '',
+                        completed: null
+                      });
+                    }}
+                  >
                   Clear Filters
-                </Button>
-                <Button
-                  p={3}
-                  pl={6}
-                  pr={6}
-                  type='submit'
-                  colorScheme='teal'
-                  variant='solid'
-                  size='xl'
-                >
-                  Filter
-                </Button>
-              </Stack>
-            </HStack>
-          </form>
-        )}
+                  </Button>
+                </Stack>
+              </HStack>
+            </form>
+          );
+        }}
       </Formik>
     </Box>
   );

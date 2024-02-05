@@ -1,5 +1,6 @@
 import {
   Box,
+  HStack,
   Table,
   TableContainer,
   Tbody,
@@ -10,6 +11,8 @@ import {
   useColorMode} from '@chakra-ui/react';
 import { FC } from 'react';
 import { TaskProps } from '../interfaces/taskProps';
+import { EditOption } from '../task-options/edit';
+import { DeleteOption } from '../task-options/delete';
 
 interface TodoTableProps {
   tasks: TaskProps[];
@@ -24,15 +27,15 @@ export const TodoTable: FC<TodoTableProps> = ({
   return (
     <Box textAlign={'center'}>
       <TableContainer
-        p={5} // padding
+        p={5}
         m={10}
-        shadow="md" // medium shadow
-        borderWidth="1px" // border width
-        borderRadius="md" // medium border radius
-        borderColor="rgba(0, 206, 209, 1)" // border color
-        boxShadow={`4px 4px 10px 0 ${boxShadowColor}`} // custom CSS for shadow
+        shadow="md"
+        borderWidth="1px"
+        borderRadius="md"
+        borderColor="rgba(0, 206, 209, 1)"
+        boxShadow={`4px 4px 10px 0 ${boxShadowColor}`}
       >
-        <Table variant='striped' colorScheme='teal'>
+        <Table variant='striped' colorScheme='gray'>
           <Thead>
             <Tr>
               <Th>Title</Th>
@@ -46,9 +49,14 @@ export const TodoTable: FC<TodoTableProps> = ({
               return (
                 <Tr key={task.id}>
                   <Td>{task.title}</Td>
-                  <Td>{task.description}</Td>
+                  <Td whiteSpace="normal">{task.description}</Td>
                   <Td>{task.completed ? 'Completed' : 'Not Completed'}</Td>
-                  <Td>Add options here</Td>
+                  <Td>
+                    <HStack>
+                      <EditOption id={task.id}/>
+                      <DeleteOption id={task.id}/>
+                    </HStack>
+                  </Td>
                 </Tr>
               );
             })}

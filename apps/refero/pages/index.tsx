@@ -66,7 +66,7 @@ export function Index(): ReactElement {
         <Button
           size={'lg'}
           colorScheme="teal"
-          onClick={(): Promise<boolean> => router.push('/new-user')}
+          onClick={(): Promise<boolean> => router.push('/dashboard')}
           data-testid='join-button'
         >
           Start Your List

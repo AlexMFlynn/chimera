@@ -14,7 +14,8 @@ const taskList: TaskProps[] = [
   {
     'id': 2,
     'title': 'quis ut nam facilis et officia qui',
-    'description': 'something, something, dark side. ha a kahs dah ashd ah kah ah jwkhljqhdlj qblk',
+    'description': `something, something, dark side. ha a kahs dah ashd ah kah ah jwkhljqhdlj q
+    blkkhgjhg gfdgcjhgcjhgckvkvgvcjhcj jhkgkhgkghjkvhkj jhvkjg vkvkhv kkkcktf hc`,
     'completed': false
   },
   {
@@ -52,7 +53,7 @@ export const Dashboard: FC = () => {
     setFilter(newFilter);
   };
   return (
-    <Box>
+    <Box m={10}>
       <TaskFilter onFilterChange={handleFilterChange}/>
       <TodoTable tasks={taskList.filter(filterCheck)}/>
     </Box>
