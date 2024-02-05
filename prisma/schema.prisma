@@ -8,37 +8,37 @@ datasource db {
 }
 
 model tasks {
-  TaskId      String  @id(map: "Tasks_pkey") @db.Uuid
-  Title       String  @db.VarChar(255)
-  Description String? @db.VarChar(255)
-  Completed   Boolean @default(false)
-  CreatedAt   DateTime @default(now()) @db.Timestamp(6)
-  UpdatedAt   DateTime @db.Timestamp(6)
-  UserId      String  @db.Uuid @map("UserId")
-  users       users   @relation(fields: [UserId], references: [UserId], onDelete: NoAction, onUpdate: NoAction, map: "UserId")
+  taskId      String  @id(map: "Tasks_pkey") @db.Uuid
+  title       String  @db.VarChar(255)
+  description String? @db.VarChar(255)
+  completed   Boolean @default(false)
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime @db.Timestamp(6)
+  userId      String  @db.Uuid @map("UserId")
+  users       users   @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade, map: "UserId")
 }
 
 model users {
-  UserId           String            @id @db.Uuid
-  FirstName        String            @db.VarChar(100)
-  LastName         String            @db.VarChar(100)
-  DateOfBirth      DateTime?         @db.Date
-  Gender           String?           @db.Char(1)
+  userId           String            @id @db.Uuid
+  firstName        String            @db.VarChar(100)
+  lastName         String            @db.VarChar(100)
+  dateOfBirth      DateTime?         @db.Date
+  gender           String?           @db.Char(1)
   users_login_data users_login_data?
   tasks            tasks[]         
 }
 
 model users_login_data {
-  UserId                  String    @id(map: "user_login_data_pkey") @db.Uuid
-  LoginName               String    @db.VarChar(50)
-  PasswordHash            String    @db.VarChar(255)
-  PasswordSalt            String    @db.VarChar(100)
-  HashAlgorithmId         Int
-  EmailAdress             String    @db.VarChar(100)
-  ConfirmationToken       String?   @db.VarChar(100)
-  TokenGenerationTime     DateTime? @db.Timestamp(6)
-  EmailValidationStatusId Int
-  PasswordRecoveryToken   String?   @db.VarChar(100)
-  RecoveryTokenTime       DateTime? @db.Timestamp(6)
-  users                   users     @relation(fields: [UserId], references: [UserId], onDelete: NoAction, onUpdate: NoAction, map: "UserId")
+  userId                  String    @id(map: "user_login_data_pkey") @db.Uuid
+  loginName               String    @db.VarChar(50)
+  passwordHash            String    @db.VarChar(255)
+  passwordSalt            String    @db.VarChar(100)
+  hashAlgorithmId         Int
+  emailAdress             String    @db.VarChar(100)
+  confirmationToken       String?   @db.VarChar(100)
+  tokenGenerationTime     DateTime? @db.Timestamp(6)
+  emailValidationStatusId Int
+  passwordRecoveryToken   String?   @db.VarChar(100)
+  recoveryTokenTime       DateTime? @db.Timestamp(6)
+  users                   users     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: Cascade, map: "userId")
 }
