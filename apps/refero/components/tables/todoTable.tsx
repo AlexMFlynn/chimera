@@ -53,8 +53,9 @@ export const TodoTable: FC<TodoTableProps> = ({
                   <Td>{task.completed ? 'Completed' : 'Not Completed'}</Td>
                   <Td>
                     <HStack>
-                      <EditOption id={task.id}/>
-                      <DeleteOption id={task.id}/>
+                      {/*TODO: Add the edit and delete options here */}
+                      {/*<EditOption id={task.id}/>
+                      <DeleteOption id={task.id}/> */}
                     </HStack>
                   </Td>
                 </Tr>
