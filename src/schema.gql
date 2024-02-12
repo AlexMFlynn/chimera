@@ -1,0 +1,46 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  signupUser(signupInput: SignupInput!): User!
+}
+
+type Query {
+  getAllUsers: [User!]!
+  userLoginData(id: String!): UserLoginData!
+}
+
+input SignupInput {
+  dateOfBirth: DateTime
+  emailAddress: String!
+  firstName: String!
+  gender: String
+  lastName: String!
+  loginName: String!
+  password: String!
+}
+
+type User {
+  dateOfBirth: DateTime!
+  firstName: String!
+  gender: String!
+  id: String!
+  lastName: String!
+}
+
+type UserLoginData {
+  confirmationToken: String
+  emailAddress: String!
+  loginName: String!
+  passwordHash: String!
+  passwordRecoveryToken: String
+  recoveryTokenTime: DateTime
+  tokenGenerationTime: DateTime
+  userId: String!
+}
