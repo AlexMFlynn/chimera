@@ -5,10 +5,15 @@ import { TaskProps } from '../../components/interfaces/taskProps';
 import { TaskFilter } from '../../components/forms/filters/taskFilter';
 import { useQuery, gql, useMutation } from '@apollo/client';
 
-const TaskContext = createContext<{
+export const TaskContext = createContext<{
   tasks: TaskProps[];
   setFilter: (filter: filter) => void;
-}>({tasks: [], setFilter: () => {}});
+  refetch: () => void;
+}>({
+      tasks: [],
+      setFilter: () => {},
+      refetch: () => {}
+    });
 
 export interface filter {
   title: string;
@@ -39,7 +44,6 @@ const GET_TASKS = gql`
 `;
 
 export const Dashboard: FC = () => {
-  const { data } = useQuery(GET_TASKS);
   const [createTask] = useMutation(CREATE_TASK);
   const addTasks = async (): Promise<void> => {
     for (let i = 0; i < 10; i++) {
@@ -54,6 +58,8 @@ export const Dashboard: FC = () => {
       });
     }
   };
+
+  const { data, refetch } = useQuery(GET_TASKS);
 
   const [filter, setFilter] = useState<filter>({
     title: '',
@@ -71,8 +77,16 @@ export const Dashboard: FC = () => {
     });
   }, [data, filter]);
 
+  const contextValues = useMemo(() => {
+    return {
+      tasks: filteredTasks ?? [],
+      setFilter,
+      refetch
+    };
+  }, [filteredTasks, setFilter, refetch]);
+
   return (
-    <TaskContext.Provider value={{tasks: filteredTasks, setFilter}}>
+    <TaskContext.Provider value={contextValues}>
       <Box m={10}>
         <TaskFilter onFilterChange={setFilter}/>
         <Button onClick={addTasks}>Click to add tasks</Button>
