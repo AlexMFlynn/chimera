@@ -1,31 +1,14 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Button } from '@chakra-ui/react';
 import { TodoTable } from '../../components/tables/todoTable';
-import { FC, useState } from 'react';
+import { FC, createContext, useMemo, useState } from 'react';
 import { TaskProps } from '../../components/interfaces/taskProps';
 import { TaskFilter } from '../../components/forms/filters/taskFilter';
+import { useQuery, gql, useMutation } from '@apollo/client';
 
-const taskList: TaskProps[] = [
-  {
-    'id': 1,
-    'title': 'delectus aut autem',
-    'description': 'something, hello something, dark side.',
-    'completed': false
-  },
-  {
-    'id': 2,
-    'title': 'quis ut nam facilis et officia qui',
-    'description': `something, something, dark side. ha a kahs dah ashd ah kah ah jwkhljqhdlj q
-    blkkhgjhg gfdgcjhgcjhgckvkvgvcjhcj jhkgkhgkghjkvhkj jhvkjg vkvkhv kkkcktf hc`,
-    'completed': false
-  },
-  {
-    'id': 3,
-    'title': 'fugiat veniam minus',
-    'description': 'something, something, dark side.',
-    'completed': true
-  }
-];
-
+const TaskContext = createContext<{
+  tasks: TaskProps[];
+  setFilter: (filter: filter) => void;
+}>({tasks: [], setFilter: () => {}});
 
 export interface filter {
   title: string;
@@ -33,7 +16,44 @@ export interface filter {
   completed: boolean | null;
 }
 
+const CREATE_TASK = gql`
+  mutation CreateTask($input: CreateTaskInput!) {
+    createTask(input: $input) {
+      id
+      title
+      description
+      completed
+    }
+  }
+`;
+
+const GET_TASKS = gql`
+  query GetAllTasks {
+      getAllTasks {
+      id
+      title
+      description
+      completed
+    }
+  }
+`;
+
 export const Dashboard: FC = () => {
+  const { data } = useQuery(GET_TASKS);
+  const [createTask] = useMutation(CREATE_TASK);
+  const addTasks = async (): Promise<void> => {
+    for (let i = 0; i < 10; i++) {
+      await createTask({
+        variables: {
+          input: {
+            title: `Task ${i}`,
+            description: `Description for task ${i}`,
+            userId: '32136c42-6d65-47ad-93dd-c08f0a83c131'
+          }
+        }
+      });
+    }
+  };
 
   const [filter, setFilter] = useState<filter>({
     title: '',
@@ -41,22 +61,24 @@ export const Dashboard: FC = () => {
     completed: null
   });
 
-  const filterCheck = (task: TaskProps): boolean => {
-    return (
-      (filter.title === '' || task.title.includes(filter.title)) &&
-      (filter.description === '' || task.description.includes(filter.description)) &&
-      (filter.completed === null || task.completed === filter.completed)
-    );
-  };
+  const filteredTasks = useMemo(() => {
+    return data?.getAllTasks.filter((task: TaskProps) => {
+      return (
+        (filter.title === '' || task.title.includes(filter.title)) &&
+        (filter.description === '' || task.description.includes(filter.description)) &&
+        (filter.completed === null || task.completed === filter.completed)
+      );
+    });
+  }, [data, filter]);
 
-  const handleFilterChange = (newFilter: filter): void => {
-    setFilter(newFilter);
-  };
   return (
-    <Box m={10}>
-      <TaskFilter onFilterChange={handleFilterChange}/>
-      <TodoTable tasks={taskList.filter(filterCheck)}/>
-    </Box>
+    <TaskContext.Provider value={{tasks: filteredTasks, setFilter}}>
+      <Box m={10}>
+        <TaskFilter onFilterChange={setFilter}/>
+        <Button onClick={addTasks}>Click to add tasks</Button>
+        <TodoTable tasks={filteredTasks ?? []}/>
+      </Box>
+    </TaskContext.Provider>
   );
 };
 

@@ -1,3 +1,3 @@
 export interface OptionProps {
-  id: number;
+  id: string;
 }
