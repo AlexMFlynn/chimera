@@ -8,13 +8,11 @@ datasource db {
 }
 
 model task {
-  taskId      String  @id(map: "Tasks_pkey") @db.Uuid
+  id          String  @id(map: "Tasks_pkey") @db.Uuid
+  userId      String  @db.Uuid @map("UserId")
   title       String  @db.VarChar(255)
   description String? @db.VarChar(255)
   completed   Boolean @default(false)
-  createdAt   DateTime @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime @db.Timestamp(6)
-  userId      String  @db.Uuid @map("UserId")
   user       user   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade, map: "UserId")
 }
 
