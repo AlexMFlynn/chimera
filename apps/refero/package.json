@@ -13,6 +13,8 @@
     "typescript": "5.2.2"
   },
   "scripts": {
-    "start": "next start"
-  }
+    "start": "next start",
+    "compile": "graphql-codegen"
+  },
+  "eslintIgnore": ["graphql.ts"]
 }
