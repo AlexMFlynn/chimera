@@ -3,7 +3,7 @@ import { TodoTable } from '../../components/tables/todoTable';
 import { FC, createContext, useMemo, useState } from 'react';
 import { TaskProps } from '../../components/interfaces/taskProps';
 import { TaskFilter } from '../../components/forms/filters/taskFilter';
-import { useQuery, gql, useMutation } from '@apollo/client';
+import { useCreateTaskMutation, useGetAllTasksQuery } from '../../.graphql/__generated__/graphql';
 
 export const TaskContext = createContext<{
   tasks: TaskProps[];
@@ -15,37 +15,16 @@ export const TaskContext = createContext<{
       refetch: () => {}
     });
 
-export interface filter {
+interface filter {
   title: string;
   description: string;
   completed: boolean | null;
 }
 
-const CREATE_TASK = gql`
-  mutation CreateTask($input: CreateTaskInput!) {
-    createTask(input: $input) {
-      id
-      title
-      description
-      completed
-    }
-  }
-`;
-
-const GET_TASKS = gql`
-  query GetAllTasks {
-      getAllTasks {
-      id
-      title
-      description
-      completed
-    }
-  }
-`;
-
 export const Dashboard: FC = () => {
-  const [createTask] = useMutation(CREATE_TASK);
+  const [createTask] = useCreateTaskMutation();
   const addTasks = async (): Promise<void> => {
+    console.log('Adding tasks');
     for (let i = 0; i < 10; i++) {
       await createTask({
         variables: {
@@ -55,11 +34,11 @@ export const Dashboard: FC = () => {
             userId: '32136c42-6d65-47ad-93dd-c08f0a83c131'
           }
         }
-      });
+      }).then(() => refetch());
     }
   };
 
-  const { data, refetch } = useQuery(GET_TASKS);
+  const { data, refetch } = useGetAllTasksQuery();
 
   const [filter, setFilter] = useState<filter>({
     title: '',

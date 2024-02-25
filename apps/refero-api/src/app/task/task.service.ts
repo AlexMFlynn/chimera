@@ -23,15 +23,15 @@ export class TaskService {
     });
   }
 
-  async updateTask(taskInput: UpdateTaskInput): Promise<Task> {
+  async updateTask(input: UpdateTaskInput): Promise<Task> {
     return this.prisma.task.update({
       where: {
-        id: taskInput.id
+        id: input.id
       },
       data: {
-        title: taskInput.title,
-        description: taskInput.description,
-        completed: taskInput.completed
+        title: input.title,
+        description: input.description,
+        completed: input.completed
       }
     });
   }

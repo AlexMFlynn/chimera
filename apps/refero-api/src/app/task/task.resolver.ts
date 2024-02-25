@@ -20,9 +20,9 @@ export class TaskResolver {
 
   @Mutation(() => Task)
   async updateTask(
-    @Args('taskInput') taskInput: UpdateTaskInput
+    @Args('input') input: UpdateTaskInput
   ): Promise<Task> { // Corrected to call updateTask
-    return this.taskService.updateTask(taskInput);
+    return this.taskService.updateTask(input);
   }
 
   @Mutation(() => Task)

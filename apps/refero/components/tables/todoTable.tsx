@@ -8,7 +8,8 @@ import {
   Th,
   Thead,
   Tr,
-  useColorMode} from '@chakra-ui/react';
+  useColorMode
+} from '@chakra-ui/react';
 import { FC } from 'react';
 import { TaskProps } from '../interfaces/taskProps';
 import { EditOption } from '../task-options/edit';
@@ -33,7 +34,7 @@ export const TodoTable: FC<TodoTableProps> = ({
         <Td>{task.completed ? 'Completed' : 'Not Completed'}</Td>
         <Td>
           <HStack>
-            <EditOption id={task.id}/>
+            <EditOption task={task}/>
             <DeleteOption id={task.id}/>
           </HStack>
         </Td>
