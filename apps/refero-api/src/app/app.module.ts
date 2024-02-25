@@ -8,6 +8,9 @@ import { UserModule } from './user/user.module';
 import { PrismaService } from './prisma/prisma.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TaskModule } from './task/task.module';
+import { TaskResolver } from './task/task.resolver';
+import { TaskService } from './task/task.service';
 
 @Module({
   imports: [
@@ -16,9 +19,17 @@ import { AppService } from './app.service';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true
     }),
-    UserModule
+    UserModule,
+    TaskModule
   ],
   controllers: [AppController],
-  providers: [AppService, UserResolver, UserService, PrismaService]
+  providers: [
+    AppService,
+    PrismaService,
+    UserResolver,
+    UserService,
+    TaskResolver,
+    TaskService
+  ]
 })
 export class AppModule {}

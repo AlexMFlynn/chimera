@@ -45,3 +45,5 @@ Thumbs.db
 
 #envirionment
 .env
+
+__generated__

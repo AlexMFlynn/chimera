@@ -184,5 +184,30 @@
         "jest": true
       }
     }
+    // {
+    //   "files": ["graphql.ts"],
+    //   "rules": {
+    //     "max-len": [
+    //       "error",
+    //       {
+    //         "code": 200,
+    //         "ignoreComments": true,
+    //         "ignoreRegExpLiterals": true,
+    //         "ignoreTrailingComments": false,
+    //         "tabWidth": 2
+    //       }
+    //     ],
+    //     "@typescript-eslint/consistent-type-definitions": [
+    //       "warn",
+    //       "interface"
+    //     ],
+    //     "@typescript-eslint/consistent-indexed-object-style": [
+    //       "warn",
+    //       "record"
+    //     ],
+    //     "@typescript-eslint/semi": ["warn", "any"],
+    //     "@typescript-eslint/explicit-function-return-type": "off"
+    //   }
+    // }
   ]
 }
